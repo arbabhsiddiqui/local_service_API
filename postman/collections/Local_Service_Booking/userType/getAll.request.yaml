@@ -1,0 +1,8 @@
+$kind: http-request
+name: getAll
+url: "{{BASE_URL}}/user-type"
+method: GET
+body:
+  type: json
+  content: ""
+order: 1772534961755

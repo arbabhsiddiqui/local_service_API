@@ -1,0 +1,7 @@
+$kind: http-request
+name: getById
+url: "{{BASE_URL}}/user-type/:id"
+method: GET
+pathVariables:
+  id: 69a6ca4ce9aba6cfdf7c4dd0
+order: 4029642680435183

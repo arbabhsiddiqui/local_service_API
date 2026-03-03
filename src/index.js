@@ -1,5 +1,19 @@
 
+import app from "./app.js";
 import connectDB from "./db/index.js";
 
 
-connectDB()
+connectDB().then(
+    () => {
+        app.on("error", (error) => {
+            console.log("error:", error);
+            throw error
+        })
+        let port = process.env.PORT || 8002
+        app.listen(port, () => {
+            console.log(`Server is running at port : ${port}`)
+        })
+    }
+).catch((err) => {
+    console.log(`DB connection Error : ${err}`)
+})

@@ -1,0 +1,18 @@
+$kind: http-request
+name: register
+url: "{{BASE_URL}}/user/register"
+method: GET
+body:
+  type: json
+  content: "{\r
+
+    \    \"fullName\":\"{{$randomFullName}}\",\r
+
+    \    \"email\": \"demoadmin2@chaicode.com\",\r
+
+    \    \"password\": \"Abc@123\",\r
+
+    \    \"userTypeId\":\"69a6ca19e9aba6cfdf7c4dca\"\r
+
+    }"
+order: 1772548844872

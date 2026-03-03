@@ -1,0 +1,14 @@
+$kind: http-request
+name: login
+url: "{{BASE_URL}}/user/login"
+method: GET
+body:
+  type: json
+  content: "{\r
+
+    \    \"email\": \"demoadmin@chaicode.com\",\r
+
+    \    \"password\": \"Abc@123\"\r
+
+    }"
+order: 1094180744417861

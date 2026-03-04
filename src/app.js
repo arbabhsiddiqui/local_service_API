@@ -20,11 +20,15 @@ import userTypeRouter from './routes/userType.routes.js'
 import healthCheckRouter from './routes/healthCheck.routes.js'
 import userRouter from './routes/user.routes.js'
 import categoryRouter from './routes/category.routes.js'
+import serviceRouter from './routes/service.routes.js'
+
 
 app.use("/api/v1/health-check", healthCheckRouter)
 app.use("/api/v1/user-type", userTypeRouter)
 app.use("/api/v1/user", userRouter)
 app.use("/api/v1/category", categoryRouter)
+app.use("/api/v1/service", serviceRouter)
+
 
 
 

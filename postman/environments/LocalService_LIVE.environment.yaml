@@ -1,6 +1,0 @@
-name: LocalService_LIVE
-values:
-  - key: BASE_URL
-    value: ""
-    enabled: true
-color: null

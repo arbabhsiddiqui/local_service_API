@@ -1,8 +1,8 @@
 import mongoose, { Schema } from 'mongoose'
 
 const userTypeSchema = new Schema({
-    name: { type: String, required: true, trim: true },
-    role_id: { type: Number, required: true },
+    name: { type: String, required: true, unique: true, trim: true },
+    role_id: { type: Number, unique: true, required: true },
     created_at: {
         type: Date,
         default: Date.now,

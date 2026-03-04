@@ -19,10 +19,13 @@ app.use(cookieParser())
 import userTypeRouter from './routes/userType.routes.js'
 import healthCheckRouter from './routes/healthCheck.routes.js'
 import userRouter from './routes/user.routes.js'
+import categoryRouter from './routes/category.routes.js'
 
 app.use("/api/v1/health-check", healthCheckRouter)
 app.use("/api/v1/user-type", userTypeRouter)
 app.use("/api/v1/user", userRouter)
+app.use("/api/v1/category", categoryRouter)
+
 
 
 

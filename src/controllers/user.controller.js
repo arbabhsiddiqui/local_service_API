@@ -188,16 +188,21 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
             secure: true
         }
 
-        const { accessToken, newRefreshToken } = await generateAccessAndRefreshTokens(user._id)
+        // we return an object with properties accessToken and refreshToken
+        // earlier this was destructured incorrectly as "newRefreshToken" which
+        // resulted in undefined being sent back to the client. the cookie would
+        // then contain the string "undefined" and subsequent calls would fail
+        // with "jwt malformed" when trying to verify the bogus value.
+        const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(user._id)
 
         return res
             .status(200)
             .cookie("accessToken", accessToken, options)
-            .cookie("refreshToken", newRefreshToken, options)
+            .cookie("refreshToken", refreshToken, options)
             .json(
                 new ApiResponse(
                     200,
-                    { accessToken, refreshToken: newRefreshToken },
+                    { accessToken, refreshToken },
                     "Access token refreshed"
                 )
             )
@@ -207,4 +212,53 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
 })
 
-export default { register, login, refreshAccessToken, logoutUser }
+
+const me = asyncHandler(async (req, res) => {
+    const token = req.cookies.refreshToken || req.body.refreshToken
+
+    if (!token) {
+        throw new ApiError(401, "unauthorized request")
+    }
+
+    try {
+        const decodedToken = jwt.verify(
+            token,
+            process.env.REFRESH_TOKEN_SECRET
+        )
+
+        const user = await User.findById(decodedToken?._id)
+
+        if (!user) {
+            throw new ApiError(401, "Invalid refresh token")
+        }
+
+
+        const loggedInUser = await User.findById(user._id).select("-password -refreshToken").populate([
+            { path: "user_type_id", select: "name" }
+        ])
+
+        const resJson = {
+            user: {
+                email: loggedInUser.email,
+                fullName: loggedInUser.full_name,
+                roleName: loggedInUser.user_type_id.name,
+                roleId: loggedInUser.user_type_id.role_id,
+            },
+        }
+
+        return res
+            .status(200)
+            .json(
+                new ApiResponse(
+                    200,
+                    resJson,
+                    "Access token refreshed"
+                )
+            )
+    } catch (error) {
+        throw new ApiError(401, error?.message || "Invalid refresh token")
+    }
+
+})
+
+export default { register, login, refreshAccessToken, logoutUser, me }

@@ -12,6 +12,7 @@ router.route("/login").post(userController.login)
 
 router.route("/logout").post(verifyJWT, userController.logoutUser)
 router.route("/refresh-token").post(userController.refreshAccessToken)
+router.route("/me").get(userController.me)
 
 
 export default router

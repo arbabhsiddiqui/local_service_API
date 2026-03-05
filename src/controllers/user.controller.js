@@ -100,11 +100,24 @@ const login = asyncHandler(async (req, res) => {
 
     const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(user._id)
 
-    const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
+    const loggedInUser = await User.findById(user._id).select("-password -refreshToken").populate([
+        { path: "user_type_id", select: "name" }
+    ])
 
     const options = {
         httpOnly: true,
         secure: true
+    }
+
+    const resJson = {
+        user: {
+            email: loggedInUser.email,
+            fullName: loggedInUser.full_name,
+            roleName: loggedInUser.user_type_id.name,
+            roleId: loggedInUser.user_type_id.role_id,
+        },
+        accessToken,
+        refreshToken
     }
 
     return res
@@ -114,9 +127,7 @@ const login = asyncHandler(async (req, res) => {
         .json(
             new ApiResponse(
                 200,
-                {
-                    user: loggedInUser, accessToken, refreshToken
-                },
+                resJson,
                 "User logged In Successfully"
             )
         )

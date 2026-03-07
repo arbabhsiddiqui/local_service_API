@@ -160,10 +160,12 @@ const logoutUser = asyncHandler(async (req, res) => {
 
 
 const refreshAccessToken = asyncHandler(async (req, res) => {
-    const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
+    // cookies may not always be parsed, guard with optional chaining
+    const incomingRefreshToken = req.cookies?.refreshToken || req.body?.refreshToken;
 
     if (!incomingRefreshToken) {
-        throw new ApiError(401, "unauthorized request")
+        // explicit message for missing token
+        throw new ApiError(401, "Refresh token is required")
     }
 
     try {
@@ -214,10 +216,10 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
 
 const me = asyncHandler(async (req, res) => {
-    const token = req.cookies.refreshToken || req.body.refreshToken
+    const token = req.cookies?.refreshToken || req.body?.refreshToken;
 
     if (!token) {
-        throw new ApiError(401, "unauthorized request")
+        throw new ApiError(401, "Refresh token is required")
     }
 
     try {
@@ -238,12 +240,10 @@ const me = asyncHandler(async (req, res) => {
         ])
 
         const resJson = {
-            user: {
-                email: loggedInUser.email,
-                fullName: loggedInUser.full_name,
-                roleName: loggedInUser.user_type_id.name,
-                roleId: loggedInUser.user_type_id.role_id,
-            },
+            email: loggedInUser.email,
+            fullName: loggedInUser.full_name,
+            roleName: loggedInUser.user_type_id.name,
+            roleId: loggedInUser.user_type_id.role_id,
         }
 
         return res

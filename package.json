@@ -1,10 +1,11 @@
 {
   "name": "local_services_booking_platform_api",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon --env-file=.env src/index.js"
+    "dev": "nodemon --env-file=.env src/index.js",
+    "prod": "node src/index.js"
   },
   "author": "",
   "license": "ISC",

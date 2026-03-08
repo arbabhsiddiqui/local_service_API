@@ -10,13 +10,13 @@ const router = Router()
 
 router.route("/")
     .get(userTypeController.getAll)
-    .post(userTypeController.addItem)
+// .post(userTypeController.addItem)
 
 
-router.route("/:id")
-    .get(userTypeController.getById)
-    .put(userTypeController.updateItem)
-    .delete(userTypeController.deleteItem)
+// router.route("/:id")
+//     .get(userTypeController.getById)
+//     .put(userTypeController.updateItem)
+//     .delete(userTypeController.deleteItem)
 
 
 

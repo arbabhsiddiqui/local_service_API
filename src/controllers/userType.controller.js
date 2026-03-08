@@ -39,13 +39,15 @@ const addItem = asyncHandler(async (req, res) => {
 const getAll = asyncHandler(async (req, res) => {
 
 
-    const data = await UserType.find({ status: 1 }).sort({
+    let data = await UserType.find({ status: 1 }).sort({
         created_at: -1
     }).select("_id name role_id")
 
     if (!data) {
         return res.status(204).json(new ApiResponse(200, null, "No content found"))
     }
+
+    data = data.filter(t => t.name !== "admin");
 
 
     return res.status(200).json(new ApiResponse(200, data, "All User Data"))

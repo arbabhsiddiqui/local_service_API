@@ -218,6 +218,9 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 const me = asyncHandler(async (req, res) => {
     const token = req.cookies?.refreshToken || req.body?.refreshToken;
 
+
+    console.log("token revived in me", token)
+
     if (!token) {
         throw new ApiError(401, "Refresh token is required")
     }
